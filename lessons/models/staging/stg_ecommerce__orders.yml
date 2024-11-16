@@ -7,8 +7,8 @@ models:
     - name: order_id
       description: "Unique identifier for the order"
       tests:
-        - unique
-        - not_null 
+        - primary_key:
+            severity: error
 
     - name: user_id
       description: ""
