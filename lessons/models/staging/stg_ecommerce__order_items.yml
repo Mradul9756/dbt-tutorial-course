@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: stg_ecommerce__order_items
+    description: ""
+    columns:
+      - name: order_item_id
+        description: "Unique identifier for the order item"
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "Unique identifier for the order"
+        tests:
+          - not_null
+          - relationships: 
+              to: ref('stg_ecommerce__orders')
+              field: order_id
+      - name: product_id
+        description: "Unique identifier for the product"
+        tests:
+          - not_null
+          - relationships: 
+              to: ref('stg_ecommerce__products')
+              field: product_id
+      - name: user_id
+        description: "Unique identifier for the user"
+        tests:
+          - not_null
+      - name: item_sale_price
+        description: "Price of the item at the time of the order"
+        tests:
+          - not_null

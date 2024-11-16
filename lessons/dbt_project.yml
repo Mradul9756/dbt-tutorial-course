@@ -31,6 +31,11 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   lessons:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+      +materialized: table # Default all SQL models to be materialized as tables.
+      +persist_docs:  # Default all SQL models to persist their documentation.
+        relation: true
+        columns: true
+
+tests:
+  lesssons:
+    +severity: warn

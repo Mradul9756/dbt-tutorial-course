@@ -1,0 +1,55 @@
+version: 2
+
+models:
+- name: stg_ecommerce__orders
+  description: "Table of 1 row per order"
+  columns:
+    - name: order_id
+      description: "Unique identifier for the order"
+      tests:
+        - unique
+        - not_null 
+
+    - name: user_id
+      description: ""
+
+    - name: status
+      description: "{{ doc('status') }}"
+      tests:
+        - not_null
+        - accepted_values:
+            name: unexepcted_order_status
+            values:
+            - Processing
+            - Cancelled
+            - Shipped
+            - Complete
+            - Returned
+
+    - name: created_at
+      description: ""
+      tests:
+        - not_null
+
+    - name: returned_at
+      description: ""
+      tests:
+        - not_null:
+            where: "status = 'Returned'"
+
+    - name: shipped_at
+      description: ""
+      tests:
+        - not_null:
+            where: "delivered_at is not null OR status = 'Shipped'"
+
+    - name: delivered_at
+      description: ""
+      tests:
+        - not_null:
+            where: "returned_at is NOT NULL OR status = 'Complete'"
+
+    - name: num_items_ordered
+      description: "Number of items in the order"
+      tests:
+        - not_null
