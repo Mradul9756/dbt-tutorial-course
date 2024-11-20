@@ -1,6 +1,5 @@
 WITH
 
--- Aggregate measures
 order_item_measures AS (
 	SELECT
 		order_id,
@@ -9,9 +8,6 @@ order_item_measures AS (
 		SUM(item_profit) AS total_profit,
 		SUM(item_discount) AS total_discount,
 
-		{# This is overkill, but a nice way to show how loops work with dbt Jinja templating #}
-		{%- set departments = ['Men', 'Women'] -%}
-		{%- for department_name in departments %}
 		SUM(IF(product_department = '{{department_name}}', item_sale_price, 0)) AS total_sold_{{department_name.lower()}}swear{% if not loop.last %},{% endif -%}
 		{% endfor %}
 
