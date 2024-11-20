@@ -30,12 +30,10 @@ SELECT
 	om.total_discount,
 
 	-- Columns from our templated Jinja statement
-	-- We could just hard code these if we wanted, e.g.: total_sold_menswear, total_sold_womenswear
 	{%- for department_name in departments %}
 	om.total_sold_{{department_name.lower()}}swear,
 	{%- endfor %}
 
-	-- In practise we'd calculate this column in the model itself, but it's
 	-- a good way to demonstrate how to use an ephemeral materialisation
 	TIMESTAMP_DIFF(od.created_at, user_data.first_order_created_at, DAY) AS days_since_first_order
 
